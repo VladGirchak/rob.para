@@ -1,0 +1,8 @@
+def count_password_combinations(m, num_symbols):
+    return num_symbols ** m
+
+m = 2  # кількість комірок
+num_symbols = 25  # кількість символів у кожній комірці
+
+combinations = count_password_combinations(m, num_symbols)
+print("Кількість можливих комбінацій пароля:", combinations)
