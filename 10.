@@ -1,35 +1,27 @@
-class Reader:
-    def __init__(self, id, last_name, first_name, group, course):
-        self.id = id
-        self.last_name = last_name
-        self.first_name = first_name
-        self.group = group
-        self.course = course
-        self.books_on_loan = []
-        self.books_returned = []
+def print_reader_info(reader):
+    print(f"ID: {reader['ID']}")
+    print(f"Прізвище: {reader['прізвище']}")
+    print(f"Ім’я: {reader['Ім’я']}")
+    print(f"Група: {reader['Група']}")
+    print(f"Курс: {reader['Курс']}")
+    print("Книги (борг):", ', '.join(reader['Книги']))
+    print("Статистика книг:", ', '.join(reader['Статистика книг']))
 
-    def __str__(self):
-        return f"ID: {self.id}\nПрізвище: {self.last_name}\nІм'я: {self.first_name}\nГрупа: {self.group}\nКурс: {self.course}\nКниги на руках: {self.books_on_loan}\nСтатистика книг: {self.books_returned}\n"
+def borrow_book(reader, book):
+    reader['Книги'].append(book)
 
-    def borrow_book(self, book):
-        self.books_on_loan.append(book)
+def return_book(reader, book):
+    if book in reader['Книги']:
+        reader['Книги'].remove(book)
+        reader['Статистика книг'].append(book)
+    else:
+        print("Цю книгу не було взято у борг")
 
-    def return_book(self, book):
-        if book not in self.books_on_loan:
-            print("Ви не брали цю книгу у борг")
-        else:
-            self.books_on_loan.remove(book)
-            self.books_returned.append(book)
-
-reader_info = {
-    "id": 2,
-    "last_name": "Гірчак",
-    "first_name": "Владислав",
-    "group": "ІПЗс-22-2",
-    "course": 2
+# Словник для зберігання інформації про читачів
+readers = {
+    1: {"ID": 1, "прізвище": "Гірчак", "Ім’я": "Владислав", "Група": "ІПЗс-22-2", "Курс": , "Книги": [], "Статистика книг": []},
+    # Додайте інші дані про читачів, якщо потрібно
 }
-
-reader = Reader(**reader_info)
 
 while True:
     print("\nМеню:")
@@ -41,20 +33,33 @@ while True:
     choice = input("Виберіть опцію: ")
 
     if choice == "1":
-        print(reader)
+        reader_id = int(input("Введіть ID читача: "))
+        if reader_id in readers:
+            print_reader_info(readers[reader_id])
+        else:
+            print("Читача з таким ID не знайдено")
 
     elif choice == "2":
-        book = input("Введіть назву книги: ")
-        reader.borrow_book(book)
-        print(f"Ви взяли книгу '{book}' у користування")
+        reader_id = int(input("Введіть ID читача: "))
+        if reader_id in readers:
+            book = input("Введіть назву книги: ")
+            borrow_book(readers[reader_id], book)
+            print(f"Книга '{book}' успішно додана до списку боргу")
+        else:
+            print("Читача з таким ID не знайдено")
 
     elif choice == "3":
-        if not reader.books_on_loan:
-            print("Ви не маєте книг у боргу")
+        reader_id = int(input("Введіть ID читача: "))
+        if reader_id in readers:
+            if not readers[reader_id]["Книги"]:
+                print("Читач не має книг у боргу")
+            else:
+                print("Книги у боргу:", ', '.join(readers[reader_id]["Книги"]))
+                book_to_return = input("Введіть назву книги, яку хочете повернути: ")
+                return_book(readers[reader_id], book_to_return)
+                print(f"Книга '{book_to_return}' повернута")
         else:
-            print("Книги у боргу:", reader.books_on_loan)
-            book_to_return = input("Введіть назву книги, яку хочете повернути: ")
-            reader.return_book(book_to_return)
+            print("Читача з таким ID не знайдено")
 
     elif choice == "0":
         print("Завершення програми")
