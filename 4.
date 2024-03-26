@@ -1,0 +1,9 @@
+def compute_expression(n):
+    nn = int(str(n) * 2)
+    nnn = int(str(n) * 3)
+    result = n + nn + nnn
+    return result
+
+n = 5  # Вибране значення n
+result = compute_expression(n)
+print("Результат обчислення виразу для n =", n, "дорівнює", result)
