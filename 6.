@@ -1,0 +1,15 @@
+def check_sequence(sequence):
+    # Перевіряємо кожну пару символів у послідовності
+    for i in range(0, len(sequence) - 1, 2):
+        if sequence[i] == '0' and sequence[i + 1] == '1':
+            continue
+        else:
+            return False
+    return True
+
+# Приклади
+sequence1 = "01010101"
+sequence2 = "00011100011"
+
+print("Результат першої послідовності:", check_sequence(sequence1))
+print("Результат другої послідовності:", check_sequence(sequence2))
