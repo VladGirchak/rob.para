@@ -1,0 +1,9 @@
+import math
+
+def main():
+    radius = float(input(" Введіть число: "))  
+    area = math.pi * radius ** 2  
+    print("Площа кола з радіусом", radius, "дорівнює", area)  
+
+if __name__ == "__main__":
+    main()
